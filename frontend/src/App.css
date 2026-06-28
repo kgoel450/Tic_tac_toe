@@ -23,10 +23,9 @@
 }
 
 .cell {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
-  cursor: pointer;
-  background-color: #f7f2e4;
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><text y="24" font-size="28" transform="scale(-1,1) translate(-32,0)">✏️</text></svg>') 28 28, pointer;
   border: 3px solid #2b2b2b;
   color: #2b2b2b;
   filter: url(#squiggle);
