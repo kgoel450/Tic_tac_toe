@@ -60,14 +60,18 @@
 
 .reset {
   margin-top: 16px;
-  padding: 8px 16px;
-  font-size: 14px;
+  padding: 10px 24px;
+  font-size: 13px;
+  letter-spacing: 1px;
   cursor: pointer;
   background-color: #f7f2e4;
   border: 3px solid #2b2b2b;
+  border-radius: 8px;
   color: #2b2b2b;
   font-family: 'Black Ops One', sans-serif;
   filter: url(#squiggle);
+  box-shadow: 3px 3px 0px rgba(43, 43, 43, 0.5);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.3s ease;
 }
 
 .mode-toggle {
