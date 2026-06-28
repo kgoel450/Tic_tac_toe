@@ -66,6 +66,7 @@
   background-color: #f7f2e4;
   border: 3px solid #2b2b2b;
   color: #2b2b2b;
+  font-family: 'Black Ops One', sans-serif;
   filter: url(#squiggle);
 }
 
@@ -76,18 +77,31 @@
 }
 
 .mode-toggle button {
-  padding: 8px 16px;
+  padding: 10px 22px;
   cursor: pointer;
   border: 3px solid #2b2b2b;
+  border-radius: 8px;
   background: #f7f2e4;
   color: #2b2b2b;
+  font-family: 'Black Ops One', sans-serif;
+  font-size: 13px;
+  letter-spacing: 1px;
   filter: url(#squiggle);
+  box-shadow: 3px 3px 0px rgba(43, 43, 43, 0.5);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.3s ease;
+}
+
+.mode-toggle button:hover {
+  transform: translateY(-2px);
+  box-shadow: 4px 5px 0px rgba(43, 43, 43, 0.5);
 }
 
 .mode-toggle button.active {
   background-color: #2b2b2b;
   color: #f7f2e4;
   font-weight: bold;
+  transform: translateY(1px);
+  box-shadow: 1px 1px 0px rgba(43, 43, 43, 0.5);
 }
 
 .heatmap-label {
@@ -144,4 +158,20 @@
   color: #f7f2e4;
   border: 3px solid #2b2b2b;
   border-radius: 4px;
+}
+
+@keyframes flash-board {
+  0% {
+    transform: scale(1.05);
+    filter: brightness(1.3);
+  }
+
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+}
+
+.board-flash {
+  animation: flash-board 0.4s ease-out;
 }

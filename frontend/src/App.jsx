@@ -49,15 +49,14 @@ function App() {
   const [board, setBoard] = useState(Array(9).fill(0));
   const [isXTurn, setIsXTurn] = useState(true);
   const [mode, setMode] = useState('minimax');
+  const [modeChanged, setModeChanged] = useState(false);
 
   const win = winner(board);
   const draw = !win && isFull(board);
   const gameOver = win !== 0 || draw;
 
-  // It's always O (-1) whose move we're forecasting in the heatmap,
-  // since O is the bot. While it's your turn, we still show what the
-  // model WOULD think if it had to move now, just for visual interest.
-  //const heatmapProbs = gameOver ? null : getDisplayProbs(board, -1);
+  // Shows whoever's about to move's predicted move - X's perspective on
+  // your turn, O's perspective on the bot's turn.
   const heatmapProbs = gameOver ? null : getDisplayProbs(board, isXTurn ? 1 : -1);
 
   useEffect(() => {
@@ -96,6 +95,8 @@ function App() {
   function switchMode(newMode) {
     setMode(newMode);
     resetGame();
+    setModeChanged(true);
+    setTimeout(() => setModeChanged(false), 500);
   }
 
   function cellSymbol(value) {
@@ -129,7 +130,8 @@ function App() {
           />
         </filter>
       </svg> */}
-      <h1 className="gameHead">Tic-Tac-Toe</h1>
+
+      <h1>Tic-Tac-Toe</h1>
 
       <div className="mode-toggle">
         <button
@@ -148,67 +150,16 @@ function App() {
 
       <p className="status">{statusMessage()}</p>
 
-      {/* <div className="panels">
-        <div className="board">
-          {board.map((value, index) => (
-            <button
-              key={index}
-              className="cell"
-              onClick={() => handleClick(index)}
-              disabled={value !== 0 || gameOver || !isXTurn}
-            >
-              {cellSymbol(value)}
-            </button>
-          ))}
-        </div>
-
-        <div className="heatmap-panel">
-          <p className="heatmap-label">
-            {isXTurn ? "What the model thinks you'll play" : 'What O (the bot) is thinking'}
-          </p>
-          <div className="heatmap">
-            {board.map((value, index) => {
-              const prob = heatmapProbs ? heatmapProbs[index] : 0;
-              const isEmpty = value === 0;
-              return (
-                <div
-                  key={index}
-                  className="heat-cell"
-                  style={{
-                    backgroundColor: isEmpty ? `rgba(255, 80, 80, ${prob})` : '#0f1a0f',
-                  }}
-                >
-                  {isEmpty ? `${Math.round(prob * 100)}%` : cellSymbol(value)}
-                </div>
-              );
-            })}
-          </div>
-          <p className="heatmap-caption">
-            This shows the model's live guess for whoever's about to move — you, or the bot.
-          </p>
-        </div>
-      </div> */}
       <p className="heatmap-label">
         {isXTurn ? "What the model thinks you'll play" : 'What O (the bot) is thinking'}
       </p>
 
-      <div className="board">
+      <div className={`board ${modeChanged ? 'board-flash' : ''}`}>
         {board.map((value, index) => {
           const prob = heatmapProbs ? heatmapProbs[index] : 0;
           const isEmpty = value === 0;
           const filledClass = value === 1 ? 'cell-x' : value === -1 ? 'cell-o' : '';
           return (
-            // <button
-            //   key={index}
-            //   className="cell"
-            //   onClick={() => handleClick(index)}
-            //   disabled={value !== 0 || gameOver || !isXTurn}
-            //   style={{
-            //     backgroundColor: isEmpty
-            //       ? `rgba(255, 80, 80, ${prob})`
-            //       : '#0f1a0f',
-            //   }}
-            // >
             <button
               key={index}
               className={`cell ${filledClass}`}
@@ -233,6 +184,7 @@ function App() {
       </p>
 
       <button className="reset" onClick={resetGame}>Reset</button>
+
       {gameOver && (
         <div className="modal-overlay">
           <div className="modal-box">
